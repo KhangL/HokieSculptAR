@@ -14,14 +14,15 @@ public class NewButton : MonoBehaviour
     //Make sure to attach these Buttons in the Inspector
     public Button m_YourFirstButton, m_YourSecondButton, m_YourThirdButton;
     public GameObject toggler;
+    public GameObject Painter;
+    public GameObject LeanTouch;
 
     void Start()
     {
         //Calls the TaskOnClick/TaskWithParameters/ButtonClicked method when you click the Button
         m_YourFirstButton.onClick.AddListener(TaskOnClick);
-        m_YourSecondButton.onClick.AddListener(delegate { TaskWithParameters("Hello"); });
-        m_YourThirdButton.onClick.AddListener(() => ButtonClicked(42));
-        m_YourThirdButton.onClick.AddListener(TaskOnClick);
+        m_YourSecondButton.onClick.AddListener(Task2OnClick);
+        m_YourThirdButton.onClick.AddListener(Task3OnClick);
         //Make a part of the code here that checks for image and disables
         //Make one of the buttons an overlay for map upload, and potentially
         //Toggle the setActive of it. Making it visable vs non visble.
@@ -41,15 +42,27 @@ public class NewButton : MonoBehaviour
         }
     }
 
-    void TaskWithParameters(string message)
+    void Task2OnClick()
     {
-        //Output this to console when the Button2 is clicked
-        Debug.Log(message);
+        if (LeanTouch.activeSelf == true)
+        {
+            LeanTouch.SetActive(false);
+        }
+        else
+        {
+            LeanTouch.SetActive(true);
+        }
     }
 
-    void ButtonClicked(int buttonNo)
+    void Task3OnClick()
     {
-        //Output this to console when the Button3 is clicked
-        Debug.Log("Button clicked = " + buttonNo);
+        if (Painter.activeSelf == true)
+        {
+            Painter.SetActive(false);
+        }
+        else
+        {
+            Painter.SetActive(true);
+        }
     }
 }
