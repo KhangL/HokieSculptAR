@@ -12,52 +12,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
-public class NewButton : MonoBehaviour
+public class NewButton2 : MonoBehaviour
 {
     //Make sure to attach these Buttons in the Inspector
-    public Button m_YourFirstButton, m_YourSecondButton, m_YourThirdButton;
-    public GameObject toggler;
-    public GameObject Painter;
-    public GameObject LeanTouch;
+    public Button m_YourFirstButton;
 
     void Start()
     {
         //Calls the TaskOnClick/TaskWithParameters/ButtonClicked method when you click the Button
         m_YourFirstButton.onClick.AddListener(TaskOnClick);
-        m_YourSecondButton.onClick.AddListener(Task2OnClick);
-        m_YourThirdButton.onClick.AddListener(Task3OnClick);
         //Make a part of the code here that checks for image and disables
         //Make one of the buttons an overlay for map upload, and potentially
         //Toggle the setActive of it. Making it visable vs non visble.
-        toggler.SetActive(false);
     }
 
     void TaskOnClick()
     {
-        SceneManager.LoadScene(sceneBuildIndex: 1);
+        SceneManager.LoadScene(sceneBuildIndex: 0);
     }
 
-    void Task2OnClick()
-    {
-        if (LeanTouch.activeSelf == true)
-        {
-            LeanTouch.SetActive(false);
-        }
-        else
-        {
-            LeanTouch.SetActive(true);
-        }
-    }
-
-    void Task3OnClick()
-    {
-        if (Painter.activeSelf == true)
-        {
-            Painter.SetActive(false);
-        }
-        else
-        {
-            Painter.SetActive(true);
-        }
-    }
 }
