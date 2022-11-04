@@ -17,12 +17,15 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Placement.unity
     guid: 9d3e8a6990756491582dbc5bbfc70afd
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/RotationScaleDrag.unity
     guid: d771c87396e3b430ea497808e524e804
-  - enabled: 1
+  - enabled: 0
     path: Assets/DrillfieldMap/DrillfieldMap.unity
     guid: 2c7147d54825142878b256c67aae5704
+  - enabled: 1
+    path: Assets/DrillfieldScene/Drillfield Sculptures.unity
+    guid: b12dacb91f9b24a7286e34f2955bc8e5
   m_configObjects:
     Unity.XR.WindowsMR.Settings: {fileID: 11400000, guid: 744b813df90924c169af73489b8325de,
       type: 2}

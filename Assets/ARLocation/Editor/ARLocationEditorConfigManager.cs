@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEditor;
-using UnityEngine.UI;
 
 /// <summary>
 /// This is a static class that makes sure that there always is a
