@@ -12,7 +12,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
-public class NewButton2 : MonoBehaviour
+public class GoToMap1 : MonoBehaviour
 {
     //Make sure to attach these Buttons in the Inspector
     public Button m_YourFirstButton;
@@ -28,7 +28,7 @@ public class NewButton2 : MonoBehaviour
 
     void TaskOnClick()
     {
-        SceneManager.LoadScene(sceneBuildIndex: 0);
+        SceneManager.LoadScene(sceneBuildIndex: 1);
     }
 
 }
