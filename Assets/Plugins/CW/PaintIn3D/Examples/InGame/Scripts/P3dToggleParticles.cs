@@ -43,6 +43,14 @@ namespace PaintIn3D
 				{
 					target.Stop();
 				}
+                if (Input.touchCount == 1)
+                {
+					target.Play();
+                }
+				if (Input.touchCount == 0)
+				{
+					target.Stop();
+				}
 			}
 		}
 	}
