@@ -2,16 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Statue: ISaveable
+public class Statue: MonoBehaviour, ISaveable
 {
     public string guid;
     public Vector3 position;
     public Quaternion rotation;
 
-
-    public Statue(string givenGuid)
+    public void setGUID(string givenGUID)
     {
-        guid = givenGuid;
+        guid = givenGUID;
+    }
+
+    public static void SaveJsonData(Statue a_Statue)
+    {
+        //This code isn't done. Based on the statue manager,
+        //all the statues should have been grabs from the save data
+        //and set up with the right tags, on the new save
+        //we attempt to grab the game object from the tag
+        //and save it's current coordinate information.
+        //GameObject.FindGameObjectsWithTag(guid);
     }
 
     public static void LoadJsonData(Statue a_Statue)
@@ -50,20 +59,12 @@ public class Statue: ISaveable
     // Start is called before the first frame update
     void Start()
     {
-        if(guid == string.Empty)
-        {
-            guid = System.Guid.NewGuid().ToString();
-        }
-        else
-        {
-            LoadJsonData(this);
-        }
-
+        LoadJsonData(this);
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnApplicationQuit()
     {
-        
+        SaveJsonData(this);
     }
+
 }

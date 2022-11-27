@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
-public class StatueManager : MonoBehaviour, ISaveable
+public class StatueManager : MonoBehaviour
 {
     public GameObject spaceshipStatue;
     public GameObject placementIndicator;
@@ -12,6 +12,8 @@ public class StatueManager : MonoBehaviour, ISaveable
     private Pose PlacementPose;
     private ARRaycastManager aRRaycastManager;
     private bool placementPoseIsValid = false;
+
+    private GameObject currentAddedObject;
 
 
     // Start is called before the first frame update
@@ -21,18 +23,16 @@ public class StatueManager : MonoBehaviour, ISaveable
         LoadJsonData(this);
     }
 
-    public void OnApplicationQuit()
-    {
-        SaveJsonData(this);
-    }
-
-
     // Update is called once per frame
     void Update()
     {
         if (Input.GetMouseButtonUp(0) || Input.touchCount == 1)
         {
-            Instantiate(spaceshipStatue, PlacementPose.position, PlacementPose.rotation);
+            currentAddedObject = Instantiate(spaceshipStatue, PlacementPose.position, PlacementPose.rotation);
+
+            string newGuid = System.Guid.NewGuid().ToString();
+            currentAddedObject.GetComponent<Statue>().guid = newGuid;
+            currentAddedObject.tag = newGuid;
         }
 
         UpdatePlacementPose();
@@ -43,7 +43,6 @@ public class StatueManager : MonoBehaviour, ISaveable
     {
         if (Input.touchCount < 1 && placementPoseIsValid)
         {
-            placementIndicator.SetActive(true);
             placementIndicator.transform.SetPositionAndRotation(PlacementPose.position, PlacementPose.rotation);
         }
         else
@@ -71,9 +70,7 @@ public class StatueManager : MonoBehaviour, ISaveable
 
 
     //_____________________________________________________________________________
-    //Saving and Loading Code
-
-
+    //Loading Code
     public static void LoadJsonData(StatueManager a_StatueManager)
     {
         if(FileManager.LoadFromFile("SaveData.dat", out var json))
@@ -85,22 +82,19 @@ public class StatueManager : MonoBehaviour, ISaveable
         }
     }
 
-    public static void SaveJsonData(StatueManager a_StatueManager)
-    {
-        SaveData sd = new SaveData();
-    }
-
-    public void PopulateSaveData(SaveData a_SaveData)
-    {
-        foreach (Statue)
-    }
-
     public void LoadFromSaveData(SaveData a_SaveData)
     {
         //TODO: This part of the code, will parse through the Save Data
         //and determine what statues need to be made and where.
+        // This code will most likely instan
 
-        
+        foreach(SaveData.StatueData statueData in a_SaveData.m_StatueData)
+        {
+            Object currentObject = Instantiate(spaceshipStatue, statueData.position, statueData.rotation);
+            currentAddedObject.GetComponent<Statue>().guid = statueData.m_Guid;
+            currentAddedObject.tag = statueData.m_Guid;
+        }
+
     }
 }
 
