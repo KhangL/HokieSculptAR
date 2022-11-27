@@ -12,10 +12,7 @@ using UnityEngine.XR.ARSubsystems;
 
 public class PaintManager : MonoBehaviour
 {
-    //飞机游戏物体
-    public GameObject planeGo;
     public P3dPaintSphere paintSphere;
-    public GameObject placementIndicator;
 
     //相机涂鸦
     public P3dHitScreen cameraHit;
@@ -37,12 +34,6 @@ public class PaintManager : MonoBehaviour
 
     private void Awake()
     {
-        //û�������һ�α����Texture
-        if (!Data.IsClearLastTexture)
-        {
-            planeGo.GetComponent<P3dPaintableTexture>().ClearSave();
-            Data.IsClearLastTexture = true;
-        }
         leanTouch.enabled = false;
         cameraHit.enabled = false;
         slideHit.enabled = false;
@@ -51,7 +42,6 @@ public class PaintManager : MonoBehaviour
     void Start()
     {
         aRRaycastManager = FindObjectOfType<ARRaycastManager>();
-        planeGo.SetActive(false);
         paintSphere.Color = Data.SelectColor;
         paintSphere.Opacity = Data.PaintSize;
         HitModelBtn.onClick.AddListener(OnHitModeBtnClick);
@@ -124,51 +114,6 @@ public class PaintManager : MonoBehaviour
             slideHit.enabled = false;
         }
 
-    }
-
-
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetMouseButtonUp(0) || Input.touchCount == 1)
-        {
-            //�ɻ��Ѿ���ʾ
-            if (planeGo.activeInHierarchy)
-            {
-                return;
-            }
-            planeGo.transform.SetPositionAndRotation(PlacementPose.position, PlacementPose.rotation);
-        }
-
-        UpdatePlacementPose();
-        UpdatePlacementIndicator();
-    }
-
-    void UpdatePlacementIndicator()
-    {
-        if (planeGo.activeInHierarchy == false && placementPoseIsValid)
-        {
-            placementIndicator.SetActive(true);
-            placementIndicator.transform.SetPositionAndRotation(PlacementPose.position, PlacementPose.rotation);
-        }
-        else
-        {
-            placementIndicator.SetActive(false);
-        }
-    }
-
-    void UpdatePlacementPose()
-    {
-        var screenCenter = Camera.current.ViewportToScreenPoint(new Vector3(0.5f, 0.5f));
-        var hits = new List<ARRaycastHit>();
-        aRRaycastManager.Raycast(screenCenter, hits, TrackableType.Planes);
-
-        placementPoseIsValid = hits.Count > 0;
-        if (placementPoseIsValid)
-        {
-            PlacementPose = hits[0].pose;
-        }
     }
 
     public void OnBackBtnClick()

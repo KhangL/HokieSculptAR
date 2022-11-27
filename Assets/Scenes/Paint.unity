@@ -2159,6 +2159,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2064599891}
   - component: {fileID: 2064599890}
+  - component: {fileID: 2064599893}
   - component: {fileID: 2064599889}
   - component: {fileID: 2064599892}
   m_Layer: 0
@@ -2180,9 +2181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f06c8508da987024e815c5a671c9f9a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  planeGo: {fileID: 0}
   paintSphere: {fileID: 357843566}
-  placementIndicator: {fileID: 973047539}
   cameraHit: {fileID: 357843567}
   slideHit: {fileID: 357843569}
   leanTouch: {fileID: 496884323}
@@ -2232,3 +2231,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spaceshipStatue: {fileID: 6144300965261477757, guid: e6dabb4773602c7438ffce605b4edcaa,
     type: 3}
+  placementIndicator: {fileID: 973047539}
+--- !u!114 &2064599893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2064599888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa17d122634046b4a8e23048891fafc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RaycastPrefab: {fileID: 0}

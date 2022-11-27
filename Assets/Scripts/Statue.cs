@@ -2,48 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Statue: MonoBehaviour, ISaveable
+public class Statue: MonoBehaviour
 {
-    public string guid;
+    public string currentName;
     public Vector3 position;
     public Quaternion rotation;
 
-    public void setGUID(string givenGUID)
-    {
-        guid = givenGUID;
-    }
 
     public static void SaveJsonData(Statue a_Statue)
     {
-        //This code isn't done. Based on the statue manager,
-        //all the statues should have been grabs from the save data
-        //and set up with the right tags, on the new save
-        //we attempt to grab the game object from the tag
-        //and save it's current coordinate information.
-        //GameObject.FindGameObjectsWithTag(guid);
-    }
+        SaveData sd = new SaveData();
+        a_Statue.PopulateSaveData(sd);
 
-    public static void LoadJsonData(Statue a_Statue)
-    {
-        if (FileManager.LoadFromFile("SaveData.dat", out var json))
+        if(FileManager.WriteToFile("SaveFile.dat", sd.ToJson()))
         {
-            SaveData sd = new SaveData();
-            sd.LoadFromJson(json);
-
-            a_Statue.LoadFromSaveData(sd);
-        }
-    }
-
-    public void LoadFromSaveData(SaveData a_SaveData)
-    {
-        foreach(SaveData.StatueData statueData in a_SaveData.m_StatueData)
-        {
-            if(statueData.m_Guid == guid)
-            {
-                //If the code ID matches an ID in our save data,
-                //update the statue with the proper coordinates and
-                //paint texture.
-            }
+            Debug.Log("Save Successful");
         }
     }
 
@@ -52,17 +25,12 @@ public class Statue: MonoBehaviour, ISaveable
         SaveData.StatueData statueData = new SaveData.StatueData();
         statueData.position = position;
         statueData.rotation = rotation;
-
+        statueData.m_Guid = currentName;
+        a_SaveData.m_StatueData.Add(statueData);
 
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        LoadJsonData(this);
-    }
-
-    void OnApplicationQuit()
+    void OnApplicationPause()
     {
         SaveJsonData(this);
     }
