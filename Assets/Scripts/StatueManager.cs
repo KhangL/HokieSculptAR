@@ -1,60 +1,130 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
 public class StatueManager : MonoBehaviour
 {
     public GameObject spaceshipStatue;
+    public GameObject statueOfLibertyStatue;
+    public GameObject pyramidStatue;
+
+    public Button uploadButton;
+    public GameObject confirmButton;
+
+    public GameObject spaceshipButton;
+    public GameObject statueOfLibertyButton;
+    public GameObject pyramidButton;
+
+    int statuePick = 1;
+
     public GameObject placementIndicator;
 
     private Pose PlacementPose;
     private ARRaycastManager aRRaycastManager;
     private bool placementPoseIsValid = false;
-    private bool putOneStatue = false;
 
-    private GameObject currentAddedObject;
-
+    private bool putStatue = false;
 
     // Start is called before the first frame update
     void Start()
     {
         aRRaycastManager = FindObjectOfType<ARRaycastManager>();
-        LoadJsonData(this);
+
+        uploadButton.onClick.AddListener(showOptions);
+        confirmButton.GetComponent<Button>().onClick.AddListener(confirmOption);
+
+        Button spBt = spaceshipButton.GetComponent<Button>();
+        Button slBt = statueOfLibertyButton.GetComponent<Button>();
+        Button pBt = pyramidButton.GetComponent<Button>();
+
+        spBt.onClick.AddListener(toggleSpaceship);
+        slBt.onClick.AddListener(toggleStatueOfLiberty);
+        pBt.onClick.AddListener(togglePyramid);
+    }
+
+    void confirmOption()
+    {
+        if (statuePick == 1)
+        {
+            spaceshipStatue.transform.SetPositionAndRotation(PlacementPose.position, PlacementPose.rotation);
+            spaceshipStatue.SetActive(true);
+        }
+        if (statuePick == 2)
+        {
+            statueOfLibertyStatue.transform.SetPositionAndRotation(PlacementPose.position, PlacementPose.rotation);
+            statueOfLibertyStatue.SetActive(true);
+        }
+        if (statuePick == 3)
+        {
+            pyramidStatue.transform.SetPositionAndRotation(PlacementPose.position, PlacementPose.rotation);
+            pyramidStatue.SetActive(true);
+        }
+        putStatue = false;
+        confirmButton.SetActive(false);
+
+    }
+
+
+    void showOptions()
+    {
+        if (spaceshipStatue.activeSelf == false)
+        {
+            spaceshipButton.SetActive(true);
+        }
+        if (statueOfLibertyStatue.activeSelf == false)
+        {
+            statueOfLibertyButton.SetActive(true);
+        }
+        if (pyramidStatue.activeSelf == false)
+        {
+            pyramidButton.SetActive(true);
+        }
+    }
+
+    void toggleSpaceship()
+    {
+        statuePick = 1;
+        disableButtons();
+        putStatue = true;
+        confirmButton.SetActive(true);
+    }
+
+    void toggleStatueOfLiberty()
+    {
+        statuePick = 2;
+        disableButtons();
+        putStatue = true;
+        confirmButton.SetActive(true);
+    }
+
+    void togglePyramid()
+    {
+        statuePick = 3;
+        disableButtons();
+        putStatue = true;
+        confirmButton.SetActive(true);
+    }
+
+    void disableButtons()
+    {
+        spaceshipButton.SetActive(false);
+        statueOfLibertyButton.SetActive(false);
+        pyramidButton.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if ((Input.GetMouseButtonUp(0) || Input.touchCount == 1) && !putOneStatue)
-        {
-            currentAddedObject = Instantiate(spaceshipStatue, PlacementPose.position, PlacementPose.rotation);
-
-            string newGuid = System.Guid.NewGuid().ToString();
-            
-            currentAddedObject.name = newGuid;
-            Statue currentStatue = currentAddedObject.GetComponent<Statue>();
-            currentStatue.name = newGuid;
-            currentStatue.position = PlacementPose.position;
-            currentStatue.rotation = PlacementPose.rotation;
-            currentStatue.enabled = true;
-            putOneStatue = true;
-        }
-
         UpdatePlacementPose();
         UpdatePlacementIndicator();
     }
 
-    //TESTER METHOD, CURRENTLY, LOADFROMFILE FAILS. FIGURE OUT WHY.
-    //void OnApplicationPause()
-    //{
-    //    LoadJsonData(this);
-    //}
-
     void UpdatePlacementIndicator()
     {
-        if (Input.touchCount < 1 && placementPoseIsValid && !putOneStatue)
+        if (placementPoseIsValid && putStatue)
         {
             placementIndicator.SetActive(true);
             placementIndicator.transform.SetPositionAndRotation(PlacementPose.position, PlacementPose.rotation);
@@ -76,48 +146,6 @@ public class StatueManager : MonoBehaviour
         {
             PlacementPose = hits[0].pose;
         }
-    }
-
-    //TODO: There will be a function that initalizes a statue, that will be used for
-    //the placement of statue at first as well as during load, which we will then do
-    //GameObject.coordinate = asNeeded and Gameobject.getComponent<P3dPaintableTexture().Load();
-
-
-    //_____________________________________________________________________________
-    //Loading Code
-    public static void LoadJsonData(StatueManager a_StatueManager)
-    {
-        if(FileManager.LoadFromFile("SaveData.dat", out var json))
-        {
-            SaveData sd = new SaveData();
-            sd.LoadFromJson(json);
-
-            a_StatueManager.LoadFromSaveData(sd);
-        }
-    }
-
-    public void LoadFromSaveData(SaveData a_SaveData)
-    {
-        //TODO: This part of the code, will parse through the Save Data
-        //and determine what statues need to be made and where.
-        // This code will most likely instan
-
-        Debug.Log("Can we get much higher");
-
-        foreach (SaveData.StatueData statueData in a_SaveData.m_StatueData)
-        {
-            Debug.Log("How the heck");
-            Object currentObject = Instantiate(spaceshipStatue, statueData.position, statueData.rotation);
-            currentAddedObject.name = statueData.m_Guid;
-            Statue currentStatue = currentAddedObject.GetComponent<Statue>();
-            currentStatue.name = statueData.m_Guid;
-            currentStatue.position = PlacementPose.position;
-            currentStatue.rotation = PlacementPose.rotation;
-            currentStatue.enabled = true;
-        }
-
-        Debug.Log("Load Finished");
-
     }
 }
 
