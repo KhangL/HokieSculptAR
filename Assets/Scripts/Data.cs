@@ -6,6 +6,8 @@ public class Data
 {
     public static Color SelectColor=Color.red;
     public static float PaintSize = 0.2f;
-    //ÊÇ·ñÇå³ıÉÏÒ»´Î±£Áô
+    //ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½Î±ï¿½ï¿½ï¿½
     public static bool IsClearLastTexture=false;
+    //ä¿å­˜ç‚¹å‡»åœºæ™¯çš„åå­—
+    public static string SceneName = "Paint";
 }

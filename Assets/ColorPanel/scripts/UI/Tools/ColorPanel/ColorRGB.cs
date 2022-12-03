@@ -12,6 +12,7 @@ public class ColorRGB : MonoBehaviour, IDragHandler, IPointerDownHandler
     Color[,] arrayColor;
     public ColorDelegate colorDelegate;
     // Use this for initialization
+    
     void Start()
     {
         arrayColor = new Color[TexPixelHeight, TexPixelHeight];

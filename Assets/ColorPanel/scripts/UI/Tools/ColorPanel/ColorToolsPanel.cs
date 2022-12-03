@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public class ColorToolsPanel : MonoBehaviour
 {
@@ -56,13 +57,14 @@ public class ColorToolsPanel : MonoBehaviour
         btnPicture.onClick.AddListener(OnClickBtnTools);
 
         ColorInput.onValueChanged.AddListener(ColorInputChange);
-        ConfirmBtn.onClick.AddListener(() =>
-        {
-            Data.SelectColor = getColor;
-            StartUI.Instance.ColorImg.color = getColor;
-            StartUI.Instance.Page2.SetActive(false);
-            StartUI.Instance.Page3.SetActive(true);
-        });
+        //点击确认按钮跳转下一个场景
+        //ConfirmBtn.onClick.AddListener(() =>
+        //{
+        //    //Data.SelectColor = getColor;
+        //    UIManager.Instance.selectColor = getColor;
+        //    UIManager.Instance.OnConfirBtnClick();
+        //    //StartUI.Instance.ColorImg.color = getColor;
+        //});
     }
 
     private void ColorInputChange(string arg0)
@@ -72,6 +74,7 @@ public class ColorToolsPanel : MonoBehaviour
         {
             ColorUtility.TryParseHtmlString("#"+arg0, out nowColor);
             getColor = nowColor;
+            UIManager.Instance.selectColor = getColor;
             ColorImg.color = nowColor;
         }
         catch (Exception e)
@@ -228,6 +231,7 @@ public class ColorToolsPanel : MonoBehaviour
     {
         getColor = color;
         ColorImg.color = color;
+        UIManager.Instance.selectColor = getColor;
         //ColorInput.text = ColorUtility.ToHtmlStringRGB(color);
     }
 }

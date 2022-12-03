@@ -7,15 +7,13 @@ using System;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 using Lean.Touch;
-using UnityEngine.XR.ARFoundation;
-using UnityEngine.XR.ARSubsystems;
 
 public class EraseManager : MonoBehaviour
 {
     //�ɻ�ģ��
     public GameObject planeGo;
     public P3dPaintSphere paintSphere;
-    public GameObject placementIndicator;
+
     //相机涂鸦
     public P3dHitScreen cameraHit;
     //拖动涂鸦
@@ -29,10 +27,6 @@ public class EraseManager : MonoBehaviour
     public Button PaintBtn;
     //移动按钮
     public Button TransformBtn;
-    private Pose PlacementPose;
-    private ARRaycastManager aRRaycastManager;
-    private bool placementPoseIsValid = false;
-
     private void Awake()
     {
         //清理上次涂鸦
@@ -134,36 +128,7 @@ public class EraseManager : MonoBehaviour
                 return;
             }
             planeGo.SetActive(true);
-            planeGo.transform.SetPositionAndRotation(PlacementPose.position, PlacementPose.rotation);
-        }
-
-        UpdatePlacementPose();
-        UpdatePlacementIndicator();
-    }
-
-    void UpdatePlacementIndicator()
-    {
-        if (planeGo.activeInHierarchy == false && placementPoseIsValid)
-        {
-            placementIndicator.SetActive(true);
-            placementIndicator.transform.SetPositionAndRotation(PlacementPose.position, PlacementPose.rotation);
-        }
-        else
-        {
-            placementIndicator.SetActive(false);
-        }
-    }
-
-    void UpdatePlacementPose()
-    {
-        var screenCenter = Camera.current.ViewportToScreenPoint(new Vector3(0.5f, 0.5f));
-        var hits = new List<ARRaycastHit>();
-        aRRaycastManager.Raycast(screenCenter, hits, TrackableType.Planes);
-
-        placementPoseIsValid = hits.Count > 0;
-        if (placementPoseIsValid)
-        {
-            PlacementPose = hits[0].pose;
+            planeGo.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 1.2f;
         }
     }
 

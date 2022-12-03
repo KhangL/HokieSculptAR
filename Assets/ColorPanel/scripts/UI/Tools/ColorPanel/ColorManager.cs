@@ -15,6 +15,7 @@ public class ColorManager : MonoBehaviour
     private ColorDelegate callbackDrag;
     private ColorDelegate callbackHide;
     private Color getColor=Color.red;
+    public static Camera UICamera;
 
 
     // Use this for initialization
@@ -23,6 +24,7 @@ public class ColorManager : MonoBehaviour
         colorCircle.getPos += OnDragValueChangedPos;
         colorRGB.colorDelegate = OnCRGBValueChanged;
         colorToolsPanel.colorDelegate = OnCTPValueChanged;
+        UICamera = GameObject.Find("UICamera").GetComponent<Camera>();
     }
     private void OnDragValueChangedPos(Vector2 pos)
     {
@@ -84,7 +86,7 @@ public class ColorManager : MonoBehaviour
     public static Vector2 ScreenPointToLocalPointInRectangleByCustomRect(RectTransform rect, Vector2 argV2)
     {
         Vector2 v2;
-        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(rect, argV2, Camera.main, out v2))
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(rect, argV2, UICamera, out v2))
         {
             return v2;
         }

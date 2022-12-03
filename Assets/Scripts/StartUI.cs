@@ -9,18 +9,19 @@ public class StartUI : MonoBehaviour
 {
     public static StartUI Instance;
 
-    [Header("页面1")]
+    //Btn(Select function)
+    public Button SelectBtn;
+    [Header("Page1")]
     public GameObject Page1;
-    [Header("页面2")]
+    [Header("Page2")]
     public GameObject Page2;
-    [Header("页面3")]
+    [Header("Page")]
     public GameObject Page3;
-    //选中的颜色
+    //选锟叫碉拷锟斤拷色
     public Image ColorImg;
-    //大小的滑窗
+    //锟斤拷小锟侥伙拷锟斤拷
     public Slider SizeSlider;
     public Text SizeTxt;
-    //选择场景的名字
     private string sceneName;
 
     private void Awake()
@@ -32,10 +33,15 @@ public class StartUI : MonoBehaviour
     }
     void Start()
     {
-        Page1.SetActive(true);
+        Page1.SetActive(false);
         Page2.SetActive(false);
         Page3.SetActive(false);
         SizeSlider.onValueChanged.AddListener(OnSizeSliderValueChange);
+        SelectBtn.onClick.AddListener(() =>
+        {
+            SelectBtn.gameObject.SetActive(false);
+            Page1.SetActive(true);
+        });
     }
 
     private void OnSizeSliderValueChange(float arg0)
@@ -50,18 +56,20 @@ public class StartUI : MonoBehaviour
     }
 
     /// <summary>
-    /// 关闭第一个页面进入第二个
+    /// 锟截闭碉拷一锟斤拷页锟斤拷锟斤拷锟节讹拷锟斤拷
     /// </summary>
     public void OnPaintBtnClick(string sceneName)
     {
         Page1.SetActive(false);
         Page2.SetActive(true);
+        Page3.SetActive(true);
+        Data.SceneName = sceneName;
         this.sceneName = sceneName;
     }
 
 
     /// <summary>
-    /// 确认了大小，进入下一场景
+    /// Load scene
     /// </summary>
     public void OnConfirmSizeBtnClick()
     {
