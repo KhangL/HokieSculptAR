@@ -770,8 +770,10 @@ namespace PaintIn3D
 		/// NOTE: This component must be activated, and this method will not resize the current texture.</summary>
 		public void Clear(Texture texture, Color tint, bool updateMips = true)
 		{
+			Debug.Log("test1");
 			if (activated == true)
 			{
+				Debug.Log("test2");
 				if (conversion == ConversionType.Normal)
 				{
 					P3dBlit.Normal(current, texture);

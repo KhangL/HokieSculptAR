@@ -21,10 +21,15 @@ public class PaintManager : MonoBehaviour
 
     public Button uploadButton;
     public GameObject confirmButton;
+    public Button removeButton;
 
     public GameObject spaceshipButton;
     public GameObject statueOfLibertyButton;
     public GameObject pyramidButton;
+    
+    public GameObject spaceshipRemoveButton;
+    public GameObject statueOfLibertyRemoveButton;
+    public GameObject pyramidRemoveButton;
 
     int statuePick = 1;
 
@@ -88,6 +93,7 @@ public class PaintManager : MonoBehaviour
 
         uploadButton.onClick.AddListener(showOptions);
         confirmButton.GetComponent<Button>().onClick.AddListener(confirmOption);
+        removeButton.onClick.AddListener(removeOptions);
 
         Button spBt = spaceshipButton.GetComponent<Button>();
         Button slBt = statueOfLibertyButton.GetComponent<Button>();
@@ -97,12 +103,36 @@ public class PaintManager : MonoBehaviour
         slBt.onClick.AddListener(toggleStatueOfLiberty);
         pBt.onClick.AddListener(togglePyramid);
 
+        Button spRemoveBt = spaceshipRemoveButton.GetComponent<Button>();
+        Button slRemoveBt = statueOfLibertyRemoveButton.GetComponent<Button>();
+        Button pRemoveBt = pyramidRemoveButton.GetComponent<Button>();
+
+        spRemoveBt.onClick.AddListener(removeSpaceship);
+        slRemoveBt.onClick.AddListener(removeStatueOfLiberty);
+        pRemoveBt.onClick.AddListener(removePyramid);
+
         HitModelBtn.onClick.AddListener(OnHitModeBtnClick);
         PaintBtn.onClick.AddListener(OnPaintBtnClick);
         TransformBtn.onClick.AddListener(OnTransformBtnClick);
         sprayParticle.gameObject.SetActive(false);
     }
 
+
+    void removeOptions()
+    {
+        if (spaceshipStatue.activeSelf)
+        {
+            spaceshipRemoveButton.SetActive(true);
+        }
+        if (statueOfLibertyStatue.activeSelf)
+        {
+            statueOfLibertyRemoveButton.SetActive(true);
+        }
+        if (pyramidStatue.activeSelf)
+        {
+            pyramidRemoveButton.SetActive(true);
+        }
+    }
 
     void confirmOption()
     {
@@ -167,11 +197,43 @@ public class PaintManager : MonoBehaviour
         confirmButton.SetActive(true);
     }
 
+    //TO DO: Add delete paint code for spaceship here.
+    void removeSpaceship()
+    {
+        disableButtons();
+        /* None of the  code below actually worked
+        //P3dPaintableTexture.ClearSave("spaceship2");
+        //PlayerPrefs.Save();
+        //spaceshipStatue.GetComponent<P3dPaintableTexture>().LoadFromData(P3dCommon.LoadBytes("spaceship2"));
+        */
+        var tempTexture = new Texture2D(1, 1, TextureFormat.ARGB32, false, false);
+        spaceshipStatue.GetComponent<P3dPaintableTexture>().Clear(tempTexture, Color.white);
+        spaceshipStatue.SetActive(false);
+
+    }
+
+    //TO DO: Add delete paint code for SoL here.
+    void removeStatueOfLiberty()
+    {
+        disableButtons();
+        statueOfLibertyStatue.SetActive(false);
+    }
+    
+    //TO DO: Add delete paint code for pyramid here.
+    void removePyramid()
+    {
+        disableButtons();
+        pyramidStatue.SetActive(false);
+    }
+
     void disableButtons()
     {
         spaceshipButton.SetActive(false);
         statueOfLibertyButton.SetActive(false);
         pyramidButton.SetActive(false);
+        spaceshipRemoveButton.SetActive(false);
+        statueOfLibertyRemoveButton.SetActive(false);
+        pyramidRemoveButton.SetActive(false);
     }
 
     /// <summary>
