@@ -161,14 +161,17 @@ public class PaintManager : MonoBehaviour
     {
         if (spaceshipStatue.activeSelf == false)
         {
+            spaceshipStatue.GetComponent<P3dPaintableTexture>().Activate();
             spaceshipButton.SetActive(true);
         }
         if (statueOfLibertyStatue.activeSelf == false)
         {
+            statueOfLibertyStatue.GetComponent<P3dPaintableTexture>().Activate();
             statueOfLibertyButton.SetActive(true);
         }
         if (pyramidStatue.activeSelf == false)
         {
+            pyramidStatue.GetComponent<P3dPaintableTexture>().Activate();
             pyramidButton.SetActive(true);
         }
     }
@@ -178,6 +181,7 @@ public class PaintManager : MonoBehaviour
         statuePick = 1;
         disableButtons();
         putStatue = true;
+        
         confirmButton.SetActive(true);
     }
 
@@ -186,6 +190,7 @@ public class PaintManager : MonoBehaviour
         statuePick = 2;
         disableButtons();
         putStatue = true;
+        
         confirmButton.SetActive(true);
     }
 
@@ -194,6 +199,7 @@ public class PaintManager : MonoBehaviour
         statuePick = 3;
         disableButtons();
         putStatue = true;
+        
         confirmButton.SetActive(true);
     }
 
@@ -206,16 +212,16 @@ public class PaintManager : MonoBehaviour
         //PlayerPrefs.Save();
         //spaceshipStatue.GetComponent<P3dPaintableTexture>().LoadFromData(P3dCommon.LoadBytes("spaceship2"));
         */
-        var tempTexture = new Texture2D(1, 1, TextureFormat.ARGB32, false, false);
-        spaceshipStatue.GetComponent<P3dPaintableTexture>().Clear(tempTexture, Color.white);
+        //var tempTexture = new Texture2D(1, 1, TextureFormat.ARGB32, false, false);
+        spaceshipStatue.GetComponent<P3dPaintableTexture>().Deactivate();
         spaceshipStatue.SetActive(false);
-
     }
 
     //TO DO: Add delete paint code for SoL here.
     void removeStatueOfLiberty()
     {
         disableButtons();
+        statueOfLibertyStatue.GetComponent<P3dPaintableTexture>().Deactivate();
         statueOfLibertyStatue.SetActive(false);
     }
     
@@ -223,6 +229,7 @@ public class PaintManager : MonoBehaviour
     void removePyramid()
     {
         disableButtons();
+        pyramidStatue.GetComponent<P3dPaintableTexture>().Deactivate();
         pyramidStatue.SetActive(false);
     }
 
@@ -352,12 +359,12 @@ public class PaintManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        UpdatePlacementPose();
+        UpdatePlacementIndicator();
         if (CheckGuiRaycastObjects())
         {
             return;
         }
-        UpdatePlacementPose();
-        UpdatePlacementIndicator();
     }
 
     public void OnBackBtnClick()
