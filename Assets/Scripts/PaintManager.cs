@@ -136,19 +136,38 @@ public class PaintManager : MonoBehaviour
 
     void confirmOption()
     {
+        disableTransformComponents();
         if (statuePick == 1)
         {
             spaceshipStatue.transform.SetPositionAndRotation(PlacementPose.position, PlacementPose.rotation);
+            spaceshipStatue.AddComponent<P3dPaintableTexture>();
+            spaceshipStatue.AddComponent<P3dMaterialCloner>();
+            spaceshipStatue.AddComponent<P3dPaintable>();
+            spaceshipStatue.GetComponent<LeanTwistRotate>().enabled = true;
+            spaceshipStatue.GetComponent<LeanPinchScale>().enabled = true;
+            spaceshipStatue.GetComponent<LeanDragTranslate>().enabled = true;
             spaceshipStatue.SetActive(true);
         }
         if (statuePick == 2)
         {
             statueOfLibertyStatue.transform.SetPositionAndRotation(PlacementPose.position, PlacementPose.rotation);
+            statueOfLibertyStatue.AddComponent<P3dPaintableTexture>();
+            statueOfLibertyStatue.AddComponent<P3dMaterialCloner>();
+            statueOfLibertyStatue.AddComponent<P3dPaintable>();
+            statueOfLibertyStatue.GetComponent<LeanTwistRotate>().enabled = true;
+            statueOfLibertyStatue.GetComponent<LeanPinchScale>().enabled = true;
+            statueOfLibertyStatue.GetComponent<LeanDragTranslate>().enabled = true;
             statueOfLibertyStatue.SetActive(true);
         }
         if (statuePick == 3)
         {
             pyramidStatue.transform.SetPositionAndRotation(PlacementPose.position, PlacementPose.rotation);
+            pyramidStatue.AddComponent<P3dPaintableTexture>();
+            pyramidStatue.AddComponent<P3dMaterialCloner>();
+            pyramidStatue.AddComponent<P3dPaintable>();
+            pyramidStatue.GetComponent<LeanTwistRotate>().enabled = true;
+            pyramidStatue.GetComponent<LeanPinchScale>().enabled = true;
+            pyramidStatue.GetComponent<LeanDragTranslate>().enabled = true;
             pyramidStatue.SetActive(true);
         }
         putStatue = false;
@@ -156,22 +175,34 @@ public class PaintManager : MonoBehaviour
 
     }
 
+    void disableTransformComponents()
+    {
+        statueOfLibertyStatue.GetComponent<LeanTwistRotate>().enabled = false;
+        statueOfLibertyStatue.GetComponent<LeanPinchScale>().enabled = false;
+        statueOfLibertyStatue.GetComponent<LeanDragTranslate>().enabled = false;
+
+        pyramidStatue.GetComponent<LeanTwistRotate>().enabled = false;
+        pyramidStatue.GetComponent<LeanPinchScale>().enabled = false;
+        pyramidStatue.GetComponent<LeanDragTranslate>().enabled = false;
+
+        spaceshipStatue.GetComponent<LeanTwistRotate>().enabled = false;
+        spaceshipStatue.GetComponent<LeanPinchScale>().enabled = false;
+        spaceshipStatue.GetComponent<LeanDragTranslate>().enabled = false;
+    }
+
 
     void showOptions()
     {
         if (spaceshipStatue.activeSelf == false)
         {
-            spaceshipStatue.GetComponent<P3dPaintableTexture>().Activate();
             spaceshipButton.SetActive(true);
         }
         if (statueOfLibertyStatue.activeSelf == false)
         {
-            statueOfLibertyStatue.GetComponent<P3dPaintableTexture>().Activate();
             statueOfLibertyButton.SetActive(true);
         }
         if (pyramidStatue.activeSelf == false)
         {
-            pyramidStatue.GetComponent<P3dPaintableTexture>().Activate();
             pyramidButton.SetActive(true);
         }
     }
@@ -213,7 +244,9 @@ public class PaintManager : MonoBehaviour
         //spaceshipStatue.GetComponent<P3dPaintableTexture>().LoadFromData(P3dCommon.LoadBytes("spaceship2"));
         */
         //var tempTexture = new Texture2D(1, 1, TextureFormat.ARGB32, false, false);
-        spaceshipStatue.GetComponent<P3dPaintableTexture>().Deactivate();
+        spaceshipStatue.GetComponent<P3dPaintableTexture>().Destroy();
+        spaceshipStatue.GetComponent<P3dMaterialCloner>().Destroy();
+        spaceshipStatue.GetComponent<P3dPaintable>().Destroy();
         spaceshipStatue.SetActive(false);
     }
 
@@ -221,7 +254,9 @@ public class PaintManager : MonoBehaviour
     void removeStatueOfLiberty()
     {
         disableButtons();
-        statueOfLibertyStatue.GetComponent<P3dPaintableTexture>().Deactivate();
+        statueOfLibertyStatue.GetComponent<P3dPaintableTexture>().Destroy();
+        statueOfLibertyStatue.GetComponent<P3dMaterialCloner>().Destroy();
+        statueOfLibertyStatue.GetComponent<P3dPaintable>().Destroy();
         statueOfLibertyStatue.SetActive(false);
     }
     
@@ -229,7 +264,9 @@ public class PaintManager : MonoBehaviour
     void removePyramid()
     {
         disableButtons();
-        pyramidStatue.GetComponent<P3dPaintableTexture>().Deactivate();
+        pyramidStatue.GetComponent<P3dPaintableTexture>().Destroy();
+        pyramidStatue.GetComponent<P3dMaterialCloner>().Destroy();
+        pyramidStatue.GetComponent<P3dPaintable>().Destroy();
         pyramidStatue.SetActive(false);
     }
 
