@@ -588,6 +588,7 @@ public class PaintManager : MonoBehaviour
         //sprayPaintSphere.Opacity = size / 10.0f;
         paintSphere.enabled = false;
         sprayPaintSphere.enabled = true;
+        sprayParticle.gameObject.SetActive(true);
         //hide hitmode btn
         HitModelBtn.gameObject.SetActive(false);
     }
