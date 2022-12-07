@@ -28,6 +28,8 @@ public class PaintManager : MonoBehaviour
     public GameObject spaceshipButton;
     public GameObject statueOfLibertyButton;
     public GameObject pyramidButton;
+
+    private bool toggle = false;
     
     public GameObject spaceshipRemoveButton;
     public GameObject statueOfLibertyRemoveButton;
@@ -80,7 +82,7 @@ public class PaintManager : MonoBehaviour
         //    planeGo.GetComponent<P3dPaintableTexture>().ClearSave();
         //    Data.IsClearLastTexture = true;
         //}
-        leanTouch.enabled = false;
+        //leanTouch.enabled = false;
         cameraHit.enabled = false;
         slideHit.enabled = false;
     }
@@ -169,9 +171,6 @@ public class PaintManager : MonoBehaviour
             spaceshipStatue.AddComponent<P3dPaintableTexture>();
             spaceshipStatue.AddComponent<P3dMaterialCloner>();
             spaceshipStatue.AddComponent<P3dPaintable>();
-            spaceshipStatue.GetComponent<LeanTwistRotate>().enabled = true;
-            spaceshipStatue.GetComponent<LeanPinchScale>().enabled = true;
-            spaceshipStatue.GetComponent<LeanDragTranslate>().enabled = true;
             spaceshipStatue.SetActive(true);
         }
         if (statuePick == 2)
@@ -180,9 +179,6 @@ public class PaintManager : MonoBehaviour
             statueOfLibertyStatue.AddComponent<P3dPaintableTexture>();
             statueOfLibertyStatue.AddComponent<P3dMaterialCloner>();
             statueOfLibertyStatue.AddComponent<P3dPaintable>();
-            statueOfLibertyStatue.GetComponent<LeanTwistRotate>().enabled = true;
-            statueOfLibertyStatue.GetComponent<LeanPinchScale>().enabled = true;
-            statueOfLibertyStatue.GetComponent<LeanDragTranslate>().enabled = true;
             statueOfLibertyStatue.SetActive(true);
         }
         if (statuePick == 3)
@@ -191,9 +187,6 @@ public class PaintManager : MonoBehaviour
             pyramidStatue.AddComponent<P3dPaintableTexture>();
             pyramidStatue.AddComponent<P3dMaterialCloner>();
             pyramidStatue.AddComponent<P3dPaintable>();
-            pyramidStatue.GetComponent<LeanTwistRotate>().enabled = true;
-            pyramidStatue.GetComponent<LeanPinchScale>().enabled = true;
-            pyramidStatue.GetComponent<LeanDragTranslate>().enabled = true;
             pyramidStatue.SetActive(true);
         }
         putStatue = false;
@@ -204,17 +197,38 @@ public class PaintManager : MonoBehaviour
 
     void disableTransformComponents()
     {
-        statueOfLibertyStatue.GetComponent<LeanTwistRotate>().enabled = false;
-        statueOfLibertyStatue.GetComponent<LeanPinchScale>().enabled = false;
-        statueOfLibertyStatue.GetComponent<LeanDragTranslate>().enabled = false;
+            spaceshipStatue.GetComponent<LeanTwistRotate>().enabled = false;
+            spaceshipStatue.GetComponent<LeanPinchScale>().enabled = false;
+            spaceshipStatue.GetComponent<LeanDragTranslate>().enabled = false;
+            statueOfLibertyStatue.GetComponent<LeanTwistRotate>().enabled = false;
+            statueOfLibertyStatue.GetComponent<LeanPinchScale>().enabled = false;
+            statueOfLibertyStatue.GetComponent<LeanDragTranslate>().enabled = false;
+            pyramidStatue.GetComponent<LeanTwistRotate>().enabled = false;
+            pyramidStatue.GetComponent<LeanPinchScale>().enabled = false;
+            pyramidStatue.GetComponent<LeanDragTranslate>().enabled = false;
+    }
 
-        pyramidStatue.GetComponent<LeanTwistRotate>().enabled = false;
-        pyramidStatue.GetComponent<LeanPinchScale>().enabled = false;
-        pyramidStatue.GetComponent<LeanDragTranslate>().enabled = false;
-
-        spaceshipStatue.GetComponent<LeanTwistRotate>().enabled = false;
-        spaceshipStatue.GetComponent<LeanPinchScale>().enabled = false;
-        spaceshipStatue.GetComponent<LeanDragTranslate>().enabled = false;
+    void enableTransformComponents()
+    {
+        disableTransformComponents();
+        if (statuePick == 1)
+        {
+            spaceshipStatue.GetComponent<LeanTwistRotate>().enabled = true;
+            spaceshipStatue.GetComponent<LeanPinchScale>().enabled = true;
+            spaceshipStatue.GetComponent<LeanDragTranslate>().enabled = true;
+        }
+        else if (statuePick == 2)
+        {
+            statueOfLibertyStatue.GetComponent<LeanTwistRotate>().enabled = true;
+            statueOfLibertyStatue.GetComponent<LeanPinchScale>().enabled = true;
+            statueOfLibertyStatue.GetComponent<LeanDragTranslate>().enabled = true;
+        }
+        else if (statuePick == 3)
+        {
+            pyramidStatue.GetComponent<LeanTwistRotate>().enabled = true;
+            pyramidStatue.GetComponent<LeanPinchScale>().enabled = true;
+            pyramidStatue.GetComponent<LeanDragTranslate>().enabled = true;
+        }
     }
 
 
@@ -364,7 +378,7 @@ public class PaintManager : MonoBehaviour
     /// stop all activity(Paint & Move)
     /// </summary>
     public void StopAllActivity() {
-        leanTouch.enabled = false;
+        //leanTouch.enabled = false;
         cameraHit.enabled = false;
         slideHit.enabled = false;
         //planeGo.SetActive(false);
@@ -412,14 +426,18 @@ public class PaintManager : MonoBehaviour
     /// </summary>
     private void OnPaintBtnClick()
     {
+        disableTransformComponents();
+        toggle = false;
+        TransformBtn.GetComponent<Image>().color = color1;
+
         //can paint
         if (cameraHit.enabled == false && slideHit.enabled == false)
         {
             //PaintBtn.GetComponentInChildren<Text>().color = color2;
             PaintBtn.GetComponent<Image>().color = color2;
-            leanTouch.enabled = false;
+            //leanTouch.enabled = false;
             //TransformBtn.GetComponentInChildren<Text>().color = color1;
-            TransformBtn.GetComponent<Image>().color = color1;
+            //TransformBtn.GetComponent<Image>().color = color1;
             //open camera-model paint
             if (IsCamera)
             {
@@ -455,9 +473,8 @@ public class PaintManager : MonoBehaviour
     {
         //change three btn color;
         UIManager.Instance.ChangeOtherBtnColor(3);
-        leanTouch.enabled = !leanTouch.enabled;
-        //close paint when moving
-        if (leanTouch.enabled)
+        toggle = !toggle;
+        if (toggle)
         {
             //PaintBtn.GetComponentInChildren<Text>().color = color1;
             PaintBtn.GetComponent<Image>().color = color1;
@@ -466,13 +483,14 @@ public class PaintManager : MonoBehaviour
             sprayParticle.gameObject.SetActive(false);
             //TransformBtn.GetComponentInChildren<Text>().color = color2;
             TransformBtn.GetComponent<Image>().color = color2;
+            enableTransformComponents();
             HitModelBtn.gameObject.SetActive(false);
         }
         else
         {
             //TransformBtn.GetComponentInChildren<Text>().color = color1;
             TransformBtn.GetComponent<Image>().color = color1;
-            HitModelBtn.gameObject.SetActive(true);
+            disableTransformComponents();
             if (IsCamera)
             {
                 cameraHit.enabled = true;
@@ -525,6 +543,7 @@ public class PaintManager : MonoBehaviour
     //Paint Model Setting
     public void PaintSetting(Color selectColor, float size)
     {
+        disableTransformComponents();
         selectColor = new Color(selectColor.r, selectColor.g, selectColor.b, 1);
         cameraHit.gameObject.SetActive(true);
         HitModelBtn.gameObject.SetActive(true);
@@ -558,6 +577,7 @@ public class PaintManager : MonoBehaviour
     [Obsolete]
     public void SpraySetting(Color selectColor, float size)
     {
+        disableTransformComponents();
         selectColor = new Color(selectColor.r, selectColor.g, selectColor.b, 1);
         HitModelBtn.gameObject.SetActive(false);
         sprayParticle.transform.localScale = size * Vector3.one;
@@ -578,6 +598,7 @@ public class PaintManager : MonoBehaviour
     /// <param name="size"></param>
     public void EraseSetting(float size)
     {
+        disableTransformComponents();
         cameraHit.gameObject.SetActive(true);
         HitModelBtn.gameObject.SetActive(true);
         paintSphere.Color = Color.white;
