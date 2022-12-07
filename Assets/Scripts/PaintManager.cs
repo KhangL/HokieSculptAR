@@ -404,7 +404,7 @@ public class PaintManager : MonoBehaviour
         if (cameraHit.enabled&&!slideHit.enabled)
         {
             //HitModelBtn.GetComponentInChildren<Text>().color = color2;
-            HitModelBtn.GetComponent<Image>().color = color2;
+            HitModelBtn.GetComponent<Image>().color = color1;
             cameraHit.enabled = false;
             slideHit.enabled = true;
             IsCamera = false;
