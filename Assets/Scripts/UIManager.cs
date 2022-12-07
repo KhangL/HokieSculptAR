@@ -19,6 +19,14 @@ public class UIManager : MonoBehaviour
     public Button SprayBtn;
     public Button EraseBtn;
 
+    public GameObject spaceshipButton;
+    public GameObject statueOfLibertyButton;
+    public GameObject pyramidButton;
+
+    public GameObject spaceshipRemoveButton;
+    public GameObject statueOfLibertyRemoveButton;
+    public GameObject pyramidRemoveButton;
+
     public GameObject colorBg;
     [Header("Color setting")]
     public GameObject ColorPage;
@@ -51,12 +59,11 @@ public class UIManager : MonoBehaviour
     //Init Game
     private void InitScene() {
         //start only show size and color
-        SelectBtn.gameObject.SetActive(true);
-        Btns.SetActive(false);
+        //SelectBtn.gameObject.SetActive(true);
+        //Btns.SetActive(false);
         colorBg.SetActive(false);
         ColorPage.SetActive(false);
         SizePage.SetActive(false);
-        Btns.SetActive(false);
         PaintManager.Instance.BtnsPanel.SetActive(true);
         //Show three select btns
         SelectBtn.onClick.AddListener(() =>
@@ -74,14 +81,18 @@ public class UIManager : MonoBehaviour
     /// </summary>
     public void OnSelectBtnClick(int selectIndex)
     {
-        //Select the same model
-        //if (this.selectIndex == selectIndex)
-        //{
-        //    SelectBtn.gameObject.SetActive(true);
-        //    Btns.SetActive(false);
-        //    PaintManager.Instance.BtnsPanel.SetActive(true);
-        //    return;
-        //}
+        spaceshipButton.SetActive(false);
+        pyramidButton.SetActive(false);
+        statueOfLibertyButton.SetActive(false);
+
+        spaceshipRemoveButton.SetActive(false);
+        pyramidRemoveButton.SetActive(false);
+        statueOfLibertyRemoveButton.SetActive(false);
+
+        ChangeOtherBtnColor(selectIndex);
+        PaintManager.Instance.HitModelBtn.gameObject.SetActive(false);
+        PaintManager.Instance.cameraHit.enabled = false;
+        PaintManager.Instance.slideHit.enabled = false;
         if (selectIndex == 2)
         {
             ColorPage.SetActive(false);
@@ -93,7 +104,7 @@ public class UIManager : MonoBehaviour
         }
         this.selectIndex = selectIndex;
         //PaintManager.Instance.planeGo.SetActive(false);
-        Btns.SetActive(false);
+        //Btns.SetActive(false);
         //Show colot and size Setting
         SizePage.SetActive(true);
         colorBg.SetActive(true);
@@ -131,10 +142,25 @@ public class UIManager : MonoBehaviour
         }
         //PaintManager.Instance.ShowPlaneGo();
         PaintManager.Instance.BtnsPanel.SetActive(true);
-        SelectBtn.gameObject.SetActive(true);
+        //SelectBtn.gameObject.SetActive(true);
+        Btns.SetActive(true);
         SizePage.SetActive(false);
         ColorPage.SetActive(false);
         colorBg.SetActive(false);
+    }
+
+
+    /// <summary>
+    /// change other btns color orange
+    /// </summary>
+    public void ChangeOtherBtnColor(int index)
+    {
+        PaintBtn.GetComponent<Image>().color = index == 0 ? PaintManager.Instance.color2 :PaintManager.Instance.color1;
+        EraseBtn.GetComponent<Image>().color = index == 2 ? PaintManager.Instance.color2 :PaintManager.Instance.color1;
+        SprayBtn.GetComponent<Image>().color = index == 1 ? PaintManager.Instance.color2 :PaintManager.Instance.color1;
+        PaintManager.Instance.TransformBtn.GetComponent<Image>().color = index == 3 ? PaintManager.Instance.color2 : PaintManager.Instance.color1;
+        PaintManager.Instance.uploadButton.GetComponent<Image>().color = index == 4 ? PaintManager.Instance.color2 : PaintManager.Instance.color1;
+        PaintManager.Instance.removeButton.GetComponent<Image>().color = index == 5 ? PaintManager.Instance.color2 : PaintManager.Instance.color1;
     }
 
 

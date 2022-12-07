@@ -19,6 +19,8 @@ public class PaintManager : MonoBehaviour
     public GameObject statueOfLibertyStatue;
     public GameObject pyramidStatue;
 
+    ////can hit other btn
+    //public bool IsCanClicOther=true;
     public Button uploadButton;
     public GameObject confirmButton;
     public Button removeButton;
@@ -47,6 +49,8 @@ public class PaintManager : MonoBehaviour
     public ParticleSystem sprayParticle;
     public P3dPaintSphere sprayPaintSphere;
 
+    //camera mode paint
+    public bool IsCamera=true;
     //Camera Paint
     public P3dHitScreen cameraHit;
     //Slide Paint
@@ -64,7 +68,6 @@ public class PaintManager : MonoBehaviour
 
     public Color color1 = new Color(134, 31, 65, 1);
     public Color color2 = new Color(231, 119, 36, 1);
-    public bool IsCamera=true;
     private void Awake()
     {
         if (Instance == null)
@@ -120,6 +123,17 @@ public class PaintManager : MonoBehaviour
 
     void removeOptions()
     {
+        disableButtons();
+        //if(!IsCanClicOther)
+        //{
+        //    return;
+        //}
+        //IsCanClicOther = false;
+        cameraHit.enabled = false;
+        slideHit.enabled = false;
+        HitModelBtn.gameObject.SetActive(false);
+        //change three btn color;
+        UIManager.Instance.ChangeOtherBtnColor(5);
         if (spaceshipStatue.activeSelf)
         {
             spaceshipRemoveButton.SetActive(true);
@@ -136,6 +150,18 @@ public class PaintManager : MonoBehaviour
 
     void confirmOption()
     {
+        //IsCanClicOther = true;
+        if (IsCamera)
+        {
+            cameraHit.enabled = true;
+            slideHit.enabled = false;
+        }
+        else
+        {
+            cameraHit.enabled = false;
+            slideHit.enabled = true;
+        }
+        //HitModelBtn.gameObject.SetActive(true);
         disableTransformComponents();
         if (statuePick == 1)
         {
@@ -172,6 +198,7 @@ public class PaintManager : MonoBehaviour
         }
         putStatue = false;
         confirmButton.SetActive(false);
+        uploadButton.GetComponent<Image>().color = color1;
 
     }
 
@@ -193,6 +220,18 @@ public class PaintManager : MonoBehaviour
 
     void showOptions()
     {
+        disableButtons();
+        //if(!IsCanClicOther)
+        //{
+        //    return;
+        //}
+        //IsCanClicOther = false;
+        //change three btn color;
+        UIManager.Instance.ChangeOtherBtnColor(4);
+        //hide switchbtn
+        HitModelBtn.gameObject.SetActive(false);
+        cameraHit.enabled = false;
+        slideHit.enabled = false;
         if (spaceshipStatue.activeSelf == false)
         {
             spaceshipButton.SetActive(true);
@@ -237,6 +276,18 @@ public class PaintManager : MonoBehaviour
     //TO DO: Add delete paint code for spaceship here.
     void removeSpaceship()
     {
+        //IsCanClicOther = true;
+        //HitModelBtn.gameObject.SetActive(true);
+        if (IsCamera)
+        {
+            cameraHit.enabled = true;
+            slideHit.enabled = false;
+        }
+        else
+        {
+            cameraHit.enabled = false;
+            slideHit.enabled = true;
+        }
         disableButtons();
         /* None of the  code below actually worked
         //P3dPaintableTexture.ClearSave("spaceship2");
@@ -248,26 +299,53 @@ public class PaintManager : MonoBehaviour
         spaceshipStatue.GetComponent<P3dMaterialCloner>().Destroy();
         spaceshipStatue.GetComponent<P3dPaintable>().Destroy();
         spaceshipStatue.SetActive(false);
+        removeButton.GetComponent<Image>().color = color1;
     }
 
     //TO DO: Add delete paint code for SoL here.
     void removeStatueOfLiberty()
     {
+        //IsCanClicOther = true;
+        //HitModelBtn.gameObject.SetActive(true);
+        if (IsCamera)
+        {
+            cameraHit.enabled = true;
+            slideHit.enabled = false;
+        }
+        else
+        {
+            cameraHit.enabled = false;
+            slideHit.enabled = true;
+        }
         disableButtons();
         statueOfLibertyStatue.GetComponent<P3dPaintableTexture>().Destroy();
         statueOfLibertyStatue.GetComponent<P3dMaterialCloner>().Destroy();
         statueOfLibertyStatue.GetComponent<P3dPaintable>().Destroy();
         statueOfLibertyStatue.SetActive(false);
+        removeButton.GetComponent<Image>().color = color1;
     }
     
     //TO DO: Add delete paint code for pyramid here.
     void removePyramid()
     {
+        //IsCanClicOther = true;
+        //HitModelBtn.gameObject.SetActive(true);
+        if (IsCamera)
+        {
+            cameraHit.enabled = true;
+            slideHit.enabled = false;
+        }
+        else
+        {
+            cameraHit.enabled = false;
+            slideHit.enabled = true;
+        }
         disableButtons();
         pyramidStatue.GetComponent<P3dPaintableTexture>().Destroy();
         pyramidStatue.GetComponent<P3dMaterialCloner>().Destroy();
         pyramidStatue.GetComponent<P3dPaintable>().Destroy();
         pyramidStatue.SetActive(false);
+        removeButton.GetComponent<Image>().color = color1;
     }
 
     void disableButtons()
@@ -278,6 +356,8 @@ public class PaintManager : MonoBehaviour
         spaceshipRemoveButton.SetActive(false);
         statueOfLibertyRemoveButton.SetActive(false);
         pyramidRemoveButton.SetActive(false);
+        removeButton.GetComponent<Image>().color = color1;
+        uploadButton.GetComponent<Image>().color = color1;
     }
 
     /// <summary>
@@ -314,6 +394,7 @@ public class PaintManager : MonoBehaviour
             cameraHit.enabled = false;
             slideHit.enabled = true;
             IsCamera = false;
+            HitModelBtn.GetComponentInChildren<Text>().text = "Swap to Camera Application";
         }
         else
         {
@@ -322,6 +403,7 @@ public class PaintManager : MonoBehaviour
             cameraHit.enabled = true;
             slideHit.enabled = false;
             IsCamera = true;
+            HitModelBtn.GetComponentInChildren<Text>().text = "Swap to Finger Application";
         }
     }
 
@@ -371,6 +453,8 @@ public class PaintManager : MonoBehaviour
     /// </summary>
     private void OnTransformBtnClick()
     {
+        //change three btn color;
+        UIManager.Instance.ChangeOtherBtnColor(3);
         leanTouch.enabled = !leanTouch.enabled;
         //close paint when moving
         if (leanTouch.enabled)
@@ -382,11 +466,23 @@ public class PaintManager : MonoBehaviour
             sprayParticle.gameObject.SetActive(false);
             //TransformBtn.GetComponentInChildren<Text>().color = color2;
             TransformBtn.GetComponent<Image>().color = color2;
+            HitModelBtn.gameObject.SetActive(false);
         }
         else
         {
             //TransformBtn.GetComponentInChildren<Text>().color = color1;
             TransformBtn.GetComponent<Image>().color = color1;
+            HitModelBtn.gameObject.SetActive(true);
+            if (IsCamera)
+            {
+                cameraHit.enabled = true;
+                slideHit.enabled = false;
+            }
+            else
+            {
+                cameraHit.enabled = false;
+                slideHit.enabled = true;
+            }
         }
 
     }
@@ -401,6 +497,10 @@ public class PaintManager : MonoBehaviour
         if (CheckGuiRaycastObjects())
         {
             return;
+        }
+        if(Input.touchCount >= 1)
+        {
+            disableButtons();
         }
     }
 
@@ -427,7 +527,6 @@ public class PaintManager : MonoBehaviour
     {
         selectColor = new Color(selectColor.r, selectColor.g, selectColor.b, 1);
         cameraHit.gameObject.SetActive(true);
-
         HitModelBtn.gameObject.SetActive(true);
         paintSphere.Color = selectColor;
         paintSphere.Scale = (0.3f + (size - 0.2f) * 0.7f) * Vector3.one;
@@ -436,7 +535,18 @@ public class PaintManager : MonoBehaviour
         paintSphere.Radius = 0.05f;
         sprayPaintSphere.enabled = false;
         sprayParticle.gameObject.SetActive(false);
-        sprayParticle.gameObject.SetActive(false);
+        HitModelBtn.gameObject.SetActive(true);
+        if(IsCamera)
+        {
+            cameraHit.enabled = true;
+            slideHit.enabled = false;
+        }
+        else
+        {
+            cameraHit.enabled = false;
+            slideHit.enabled = true;
+        }
+
 
     }
 
@@ -458,6 +568,8 @@ public class PaintManager : MonoBehaviour
         //sprayPaintSphere.Opacity = size / 10.0f;
         paintSphere.enabled = false;
         sprayPaintSphere.enabled = true;
+        //hide hitmode btn
+        HitModelBtn.gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -475,6 +587,17 @@ public class PaintManager : MonoBehaviour
         paintSphere.Radius = 0.075f;
         sprayPaintSphere.enabled = false;
         sprayParticle.gameObject.SetActive(false);
+        HitModelBtn.gameObject.SetActive(true);
+        if (IsCamera)
+        {
+            cameraHit.enabled = true;
+            slideHit.enabled = false;
+        }
+        else
+        {
+            cameraHit.enabled = false;
+            slideHit.enabled = true;
+        }
     }
 
     void UpdatePlacementIndicator()
@@ -492,7 +615,7 @@ public class PaintManager : MonoBehaviour
 
     void UpdatePlacementPose()
     {
-        var screenCenter = Camera.current.ViewportToScreenPoint(new Vector3(0.5f, 0.5f));
+        var screenCenter = Camera.main.ViewportToScreenPoint(new Vector3(0.5f, 0.5f));
         var hits = new List<ARRaycastHit>();
         aRRaycastManager.Raycast(screenCenter, hits, TrackableType.Planes);
 
